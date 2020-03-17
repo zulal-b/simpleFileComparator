@@ -31,12 +31,12 @@ void compare_inputs(char *input1, char *input2){
     second = atoi(templine2);
 
     if (first == 1 && second == 0){
-      printf("OOPS FN --> line = %d, edlib = %d, other = %d\n", line_num, first, second);
+      printf("OOPS FN --> line = %d, base = %d, other = %d\n", line_num, first, second);
       fn_count++;
       miss_count++;
     }
     else if (first == 0 && second == 1){
-      printf("OOPS FP --> line = %d, edlib = %d, other = %d\n", line_num, first, second);
+      printf("OOPS FP --> line = %d, base = %d, other = %d\n", line_num, first, second);
       fp_count++;
       miss_count++;
     }

@@ -1,9 +1,9 @@
 # simpleFileComparator
-Created for intermediate file comparisons for personal tests of filtering results.  
+Created for intermediate file comparisons for personal tests of filtering results. <br />
 Compares two files line by line string-wise. 
 
 # Usage
-make
+make <br />
 ./file_comparator baseline_file other_file
 
 # Important Note

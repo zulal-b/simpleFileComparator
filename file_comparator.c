@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void compare_inputs(char *input1, char *input2){
+void compare_inputs(char *input1, char *input2, int undef_count){
   FILE *file1 = fopen(input1, "r");
   FILE *file2 = fopen(input2, "r");
   
@@ -19,6 +19,8 @@ void compare_inputs(char *input1, char *input2){
   int miss_count = 0, sad = 0;
   int fp_count = 0, fn_count = 0;
   int first, second;
+  int first_accepted = 0, first_rejected = 0;
+  int second_accepted = 0, second_rejected = 0;
 
   check1 = fgets(line1, sizeof(line1), file1);
   check2 = fgets(line2, sizeof(line2), file2);
@@ -32,6 +34,7 @@ void compare_inputs(char *input1, char *input2){
 
     if (first == 1 && second == 0){
       // printf("OOPS FN --> line = %d, baseline = %d, other = %d\n", line_num, first, second);
+      // exit(1);
       fn_count++;
       miss_count++;
     }
@@ -43,6 +46,20 @@ void compare_inputs(char *input1, char *input2){
     else if (first != second){
       // printf("OOPS :( --> line = %d, first = %d, second = %d\n", line_num, first, second);
       sad++;
+    }
+
+    if (first == 1){
+      first_accepted++;
+    }
+    else {
+      first_rejected++;
+    }
+
+    if (second == 1){
+      second_accepted++;
+    }
+    else {
+      second_rejected++;
     }
 
     check1 = fgets(line1, sizeof(line1), file1);
@@ -65,6 +82,10 @@ void compare_inputs(char *input1, char *input2){
       printf("FN count = %d\n", fn_count);
       printf("SAD count = %d\n", sad);
     }
+
+    printf("baseline accepted %d rejected %d\n", first_accepted-undef_count, first_rejected);
+    printf("second accepted %d rejected %d\n\n", second_accepted-undef_count, second_rejected);
+    
   }
   
   fclose(file1);
@@ -75,7 +96,7 @@ void compare_inputs(char *input1, char *input2){
 
 int main(int argc, char* argv[])
 {
-  if(argc < 3){
+  if(argc < 4){
     printf("MISSING ARGUMENT\n");
     exit(0);
   }
@@ -84,8 +105,9 @@ int main(int argc, char* argv[])
     {
       char *input1 = argv[1];
       char *input2 = argv[2];
+      int undef_count = atoi(argv[3]);
 
-      compare_inputs(input1, input2);
+      compare_inputs(input1, input2, undef_count);
     }
 
   return 0;
